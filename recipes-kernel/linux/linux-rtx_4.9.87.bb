@@ -11,11 +11,11 @@ require recipes-kernel/linux/linux-imx.inc
 DEPENDS += "lzop-native bc-native"
 
 SRCBRANCH = "RTX_4.9.87_1.0.x"
-SRC_URI = "git://github.com/RetronixTechInc/linux-rtx.git;protocol=https;branch=${SRCBRANCH} \
+SRC_URI = "git://github.com/RetronixTechInc/linux-rtx.git;protocol=git;branch=${SRCBRANCH} \
 	"
 SRC_URI += "file://defconfig "
 DEFAULT_PREFERENCE = "1"
-SRCREV = "555dfd64c8efda663f6bae537d2d55ab3b31263d"
+SRCREV = "7cee0b9c75504b53c86d6adfcc1dd89af77efa17"
 
 DO_CONFIG_V7_COPY = "no"
 DO_CONFIG_V7_COPY_mx6 = "yes"
