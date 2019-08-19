@@ -13,9 +13,10 @@ DEPENDS += "lzop-native bc-native"
 SRCBRANCH = "RTX_4.9.87_1.0.x"
 SRC_URI = "git://github.com/RetronixTechInc/linux-rtx.git;protocol=git;branch=${SRCBRANCH} \
 	"
-SRC_URI += "file://defconfig "
 DEFAULT_PREFERENCE = "1"
-SRCREV = "7cee0b9c75504b53c86d6adfcc1dd89af77efa17"
+
+SRCREV = "RTX_4.9.87_1.0.x"
+#SRCREV = "7cee0b9c75504b53c86d6adfcc1dd89af77efa17"
 
 DO_CONFIG_V7_COPY = "no"
 DO_CONFIG_V7_COPY_mx6 = "yes"
@@ -26,10 +27,10 @@ addtask copy_defconfig after do_unpack before do_preconfigure
 do_copy_defconfig () {
     install -d ${B}
     if [ ${DO_CONFIG_V7_COPY} = "yes" ]; then
-        # copy latest imx_v7_defconfig to use for mx6, mx6ul and mx7
+        # copy latest rtx-imx6q-pitx-b21_defconfig to use for mx6, mx6ul and mx7
         mkdir -p ${B}
-        cp ${S}/arch/arm/configs/imx_v7_defconfig ${B}/.config
-        cp ${S}/arch/arm/configs/imx_v7_defconfig ${B}/../defconfig
+        cp ${S}/rtx/configs/rtx-imx6q-pitx-b21_defconfig ${B}/.config
+        cp ${S}/rtx/configs/rtx-imx6q-pitx-b21_defconfig ${B}/../defconfig
     else
         # copy latest defconfig to use for mx8
         mkdir -p ${B}
