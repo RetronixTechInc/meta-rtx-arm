@@ -20,6 +20,8 @@ IMAGE_INSTALL_append += " \
 wget \
 curl \
 bash \
+e2fsprogs \
+dosfstools \
 "
 
 # IMAGE_ROOTFS_SIZE ?= "8192"
