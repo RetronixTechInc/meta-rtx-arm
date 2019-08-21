@@ -5,4 +5,6 @@ require recipes-fsl/images/fsl-image-qt5-validation-imx.bb
 
 IMAGE_INSTALL_append += " \
 wvdial \
+wvdialconf \
+rtxsetting \
 "
