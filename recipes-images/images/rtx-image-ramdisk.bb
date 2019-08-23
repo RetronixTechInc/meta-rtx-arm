@@ -22,8 +22,8 @@ curl \
 bash \
 e2fsprogs \
 dosfstools \
-tar \
 rtxsetting \
+unzip \
 "
 
 # IMAGE_ROOTFS_SIZE ?= "8192"
