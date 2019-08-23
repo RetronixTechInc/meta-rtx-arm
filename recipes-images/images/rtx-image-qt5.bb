@@ -8,3 +8,5 @@ wvdial \
 wvdialconf \
 rtxsetting \
 "
+
+IMAGE_FSTYPES= "tar.xz"
