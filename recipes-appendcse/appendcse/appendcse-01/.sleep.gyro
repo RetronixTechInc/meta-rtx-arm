@@ -1,0 +1,37 @@
+#! /bin/sh
+
+if [ -z $1 ]; then
+        echo "Please setting wakeup time. (sec)"
+        exit 0
+else
+        echo "The system will wake up after $1 seconds"
+fi
+
+hwclock -w
+
+year=$(date +%Y -d@"$(( `date +%s`+$1))")
+mon=$(date +%m -d@"$(( `date +%s`+$1))")
+day=$(date +%d -d@"$(( `date +%s`+$1))")
+hours=$(date +%H -d@"$(( `date +%s`+$1))")
+min=$(date +%M -d@"$(( `date +%s`+$1))")
+sec=$(date +%S -d@"$(( `date +%s`+$1))")
+
+year=$(($year - 1970))
+dat="$year|$mon|$day|$hours|$min|$sec"
+
+efm32cmd 0 12 -sa $dat
+
+i2cset -y -f 2 0x6a 0x0B 0x00
+i2cset -y -f 2 0x6a 0x10 0x50
+i2cset -y -f 2 0x6a 0x5B 0x10
+i2cset -y -f 2 0x6a 0x5C 0x30
+
+i2cset -y -f 2 0x6a 0x5E 0x20
+i2cset -y -f 2 0x6a 0x5F 0x20
+i2cset -y -f 2 0x6a 0x58 0x90 
+
+i2cdump -y -f 2 0x6a 
+
+efm32cmd 0 12 -sp 0x04
+
+echo mem > /sys/power/state
