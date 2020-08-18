@@ -32,4 +32,6 @@ wvdial			\
 appendcse		\
 initscript		\
 networkmanager		\
+dhcp-server 		\
+dhcp-client		\
 "
