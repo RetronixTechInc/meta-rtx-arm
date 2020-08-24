@@ -34,4 +34,5 @@ initscript		\
 networkmanager		\
 dhcp-server 		\
 dhcp-client		\
+init-ifupdown		\
 "
