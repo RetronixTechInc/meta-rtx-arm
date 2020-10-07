@@ -142,6 +142,7 @@ else
     cp $BUILD_DIR/conf/local.conf.org $BUILD_DIR/conf/local.conf
 fi
 
+cp $BUILD_DIR/../sources/meta-rtx-arm/tool/rtx.conf  $BUILD_DIR/conf/local.conf
 
 if [ ! -e $BUILD_DIR/conf/bblayers.conf.org ]; then
     cp $BUILD_DIR/conf/bblayers.conf $BUILD_DIR/conf/bblayers.conf.org
