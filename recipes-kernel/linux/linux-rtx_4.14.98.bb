@@ -15,7 +15,7 @@ DEFAULT_PREFERENCE = "1"
 
 SRCBRANCH = "RTX_4.14.98_2.0.0"
 SRC_URI = "git://github.com/RetronixTechInc/linux-rtx.git;protocol=https;branch=${SRCBRANCH}"
-SRCREV = "9da2f922c5a39316827d58201e4d9ec85ba7a7e7"
+SRCREV = "097cd6e378b0a1f478f859e6833b259ab8890470"
 
 #SRCBRANCH = "imx_4.14.98_2.0.0_ga"
 #SRC_URI = "git://git@192.168.11.5/~/Disk/project_kernel/kernel-alston.git;protocol=ssh;branch=${SRCBRANCH}"
