@@ -44,4 +44,10 @@ at			\
 iptables		\
 msmtp			\
 squid			\
+procps			\
+iputils			\
+iproute2		\
+tcpdump			\
+modemmanager		\
+libmbim			\
 "

@@ -14,6 +14,7 @@ SRC_URI = " \
 	file://.test.conf \
 	file://.sleep.gyro \
 	file://nm-system-settings.conf \
+	file://mbim-network.conf \
            "
 
 INSANE_SKIP_${PN} = "ldflags"
@@ -23,6 +24,7 @@ FILES_${PN} += " \
 /etc/NetworkManager \
 /home/root/.test.conf \
 /home/root/.sleep.gyro \
+/home/root/mbim-network.conf \
 "
 
 do_install() {
@@ -40,5 +42,6 @@ do_install() {
 	install -m 0644 ${WORKDIR}/.test.conf ${D}/home/root
 	install -m 0755 ${WORKDIR}/.sleep.gyro ${D}/home/root
 	install -m 0644 ${WORKDIR}/uramdisk-recovery.img ${DEPLOY_DIR_IMAGE}/
+	install -m 0644 ${WORKDIR}/mbim-network.conf ${D}/etc/
 }
 
