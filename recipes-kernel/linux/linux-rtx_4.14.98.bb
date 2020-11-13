@@ -15,11 +15,7 @@ DEFAULT_PREFERENCE = "1"
 
 SRCBRANCH = "RTX_4.14.98_2.0.0"
 SRC_URI = "git://github.com/RetronixTechInc/linux-rtx.git;protocol=https;branch=${SRCBRANCH}"
-SRCREV = "097cd6e378b0a1f478f859e6833b259ab8890470"
-
-#SRCBRANCH = "imx_4.14.98_2.0.0_ga"
-#SRC_URI = "git://git@192.168.11.5/~/Disk/project_kernel/kernel-alston.git;protocol=ssh;branch=${SRCBRANCH}"
-#SRCREV = "68ea20f8c98664a6fc64141a2cbe988d0e58fefe"
+SRCREV = "14870ad32f2037494836001b4fee0e9c43d586f2"
 
 # SRC_URI += "file://defconfig "
 SCMVERSION = ""

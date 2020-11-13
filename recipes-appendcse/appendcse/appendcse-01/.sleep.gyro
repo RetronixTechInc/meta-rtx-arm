@@ -7,7 +7,7 @@ else
         echo "The system will wake up after $1 seconds"
 fi
 
-hwclock -w
+hwclock -w -u
 
 year=$(date +%Y -d@"$(( `date +%s`+$1))")
 mon=$(date +%m -d@"$(( `date +%s`+$1))")
@@ -35,3 +35,9 @@ i2cdump -y -f 2 0x6a
 efm32cmd 0 12 -sp 0x04
 
 echo mem > /sys/power/state
+
+if [ -d /sys/class/graphics/fb0 ]; then
+	echo 1 > /sys/class/graphics/fb0/blank
+	echo 0 > /sys/class/graphics/fb0/blank
+fi
+

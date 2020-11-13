@@ -50,4 +50,5 @@ iproute2		\
 tcpdump			\
 modemmanager		\
 libmbim			\
+sudo			\		
 "
