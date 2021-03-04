@@ -43,5 +43,8 @@ do_install() {
 	install -m 0755 ${WORKDIR}/.sleep.gyro ${D}/home/root
 	install -m 0644 ${WORKDIR}/uramdisk-recovery.img ${DEPLOY_DIR_IMAGE}/
 	install -m 0644 ${WORKDIR}/mbim-network.conf ${D}/etc/
+
+	install -d ${D}/etc/systemd/system
+	ln -sf /dev/null ${D}/etc/systemd/system/systemd-backlight@backlight:buzzer.service
 }
 
