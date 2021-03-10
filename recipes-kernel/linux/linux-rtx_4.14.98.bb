@@ -15,7 +15,7 @@ DEFAULT_PREFERENCE = "1"
 
 SRCBRANCH = "RTX_4.14.98_2.0.0"
 SRC_URI = "git://github.com/RetronixTechInc/linux-rtx.git;protocol=https;branch=${SRCBRANCH}"
-SRCREV = "fc7a72c16df36d9836eb9b99644021cf8f2c597d"
+SRCREV = "7d0a3b78cad92abe7315916df1c120e8616db8db"
 
 # SRC_URI += "file://defconfig "
 SCMVERSION = ""

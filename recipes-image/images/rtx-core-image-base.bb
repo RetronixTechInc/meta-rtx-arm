@@ -50,5 +50,6 @@ iproute2		\
 tcpdump			\
 modemmanager		\
 libmbim			\
-sudo			\		
+sudo			\
+ethtool			\
 "
