@@ -4,7 +4,7 @@
 . sources/meta-fsl-bsp-release/imx/tools/setup-utils.sh
 
 CWD=`pwd`
-PROGNAME="setup-environment"
+PROGNAME="sources/base/setup-environment"
 exit_message ()
 {
    echo "To return to this build environment later please run:"
@@ -14,7 +14,7 @@ exit_message ()
 
 usage()
 {
-    echo -e "\nUsage: source rtx-setup-release.sh
+    echo -e "\nUsage: source sources/meta-rtx-arm/rtx-setup-release.sh
     Optional parameters: [-b build-dir] [-h]"
 echo "
     * [-b build-dir]: Build directory, if unspecified script uses 'build' as output directory
