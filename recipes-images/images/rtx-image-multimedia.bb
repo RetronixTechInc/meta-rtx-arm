@@ -55,8 +55,6 @@ CORE_IMAGE_EXTRA_INSTALL += " \
 
 IMAGE_INSTALL_append += " \
 chromium-ozone-wayland \
-qtwebengine \
-qtwebengine-dev \
 wvdial \
 wvdialconf \
 rtxsetting \
@@ -68,6 +66,5 @@ freetype \
 initscript \
 "
 APP_LAUNCH_WAYLAND ?= "wayland-qtdemo-launch-cinematicexperience"
-APP_LAUNCH_X11 ?= "x-window-qtcinematicexperience"
 
 IMAGE_LINGUAS = "en-us zh-cn"
