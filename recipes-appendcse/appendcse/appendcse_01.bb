@@ -15,6 +15,9 @@ SRC_URI = " \
 	file://.sleep.gyro \
 	file://nm-system-settings.conf \
 	file://mbim-network.conf \
+	file://usb-mount.sh \
+	file://usb-mount@.service \
+	file://mbim-network.conf \
            "
 
 INSANE_SKIP_${PN} = "ldflags"
@@ -46,5 +49,10 @@ do_install() {
 
 	install -d ${D}/etc/systemd/system
 	ln -sf /dev/null ${D}/etc/systemd/system/systemd-backlight@backlight:buzzer.service
+
+	install -m 0755 ${WORKDIR}/usb-mount.sh ${D}/${sbindir}
+	install -m 0777 ${WORKDIR}/usb-mount@.service ${D}/etc/systemd/system/
+	install -d ${D}/etc/udev/rules.d
+	install -m 0644 ${WORKDIR}/99-local.rules ${D}/etc/udev/rules.d/
 }
 

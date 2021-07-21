@@ -48,6 +48,10 @@ automount() {
 		MOUNT="$MOUNT -o umask=007,gid=`awk -F':' '/^disk/{print $3}' /etc/group`"
 		;;
 	# TODO
+	exfat)
+		rm_dir "/run/media/$name"
+		exit 0
+		;;
 	*)
 		;;
 	esac
