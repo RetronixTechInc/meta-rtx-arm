@@ -1,0 +1,65 @@
+#!/usr/bin/env bash
+#------------------------------------
+# uevent handler
+#------------------------------------
+RTX_BIN_DIR=/usr/bin/rtx
+#~ RTX_BIN_DIR=.
+
+. ${RTX_BIN_DIR}/rtx_debug_def #include define
+
+#message show and save
+#~ DEBUG_PORT=/dev/${CONSOLE}
+DEBUGLOG=${MODEMLOG}/sysevent.log
+
+dbgout()
+{
+	if [ ! -z "${DEBUG_PORT}" ]; then
+		echo "[sysevent_notify] "$@ >> ${DEBUG_PORT}
+	fi
+	
+	if [ ! -z "${DEBUGLOG}" ]; then
+		[ ! -e ${MODEMLOG} ] && mkdir -p ${MODEMLOG}
+		echo "[sysevent_notify] "$@ >> ${DEBUGLOG}
+	fi
+	dummy=
+}
+
+dbgout "start $@"
+
+case "$1" in
+	#~ Modem Handler
+	usb-modem-add)# -- usb modem added (ttyUSB*)
+		if (${RTX_BIN_DIR}/rtx_modem_handler ismodem $2 ); then
+			dbgout "${RTX_BIN_DIR}/rtx_modem_handler add $2"
+			${RTX_BIN_DIR}/rtx_modem_handler add $2 
+		fi
+		;;
+	usb-acm-add)# -- acm modem added (ttyACM*)
+		if (${RTX_BIN_DIR}/rtx_modem_handler ismodem $2 ); then
+			dbgout "${RTX_BIN_DIR}/rtx_modem_handler add $2"
+			${RTX_BIN_DIR}/rtx_modem_handler add $2 
+		fi
+		;;
+	usb-modem-remove|usb-acm-remove)# -- modem removed (ttyUSB*/ttyACM*)
+		if (${RTX_BIN_DIR}/rtx_modem_handler remove $2 ); then
+			dbgout "sysevent: rtx_modem_handler $@!!!!"
+		fi
+		;;
+
+	#~ GPS Handler
+	usb-gps-add)# -- gps added
+		if (${RTX_BIN_DIR}/rtx_gps_handler isgps $2 ); then
+			dbgout "${RTX_BIN_DIR}/rtx_gps_handler add $2"
+			${RTX_BIN_DIR}/rtx_gps_handler add $2 
+		fi
+		;;
+	usb-gps-remove)# -- modem removed (ttyUSB*/ttyACM*)
+		if (${RTX_BIN_DIR}/rtx_gps_handler remove $2 ); then
+			dbgout "sysevent: rtx_gps_handler $@!!!!"
+		fi
+		;;
+	
+	*)
+		;;
+esac
+

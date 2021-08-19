@@ -63,4 +63,5 @@ gstreamer1.0-rtsp-server	\
 gst-rtsp			\
 fuse-exfat			\
 exfat-utils			\
+dnf			\
 "

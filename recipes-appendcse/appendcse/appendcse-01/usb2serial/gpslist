@@ -1,0 +1,6 @@
+#Comment			,idVendor,idProduct,cmd,gps
+u-blox-ACM			,1546,01a8,00,00
+sim7100-7600-USB	,1e0e,9001,03,01
+PHS8-P				,1e2d,0053,02,01
+PLS8-E				,1e2d,0061,02,04
+EC25-J				,2c7c,0125,02,01

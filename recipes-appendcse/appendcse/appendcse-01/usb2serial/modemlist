@@ -1,0 +1,7 @@
+#Comment,idVendor,idProduct,cmd,modem
+u-blox-ACM			,1546,110a,04,02
+sim7100-7600-USB	,1e0e,9001,02,02
+PHS8-P				,1e2d,0053,03,03
+PLS8-E				,1e2d,0061,02,00
+EC25-J				,2c7c,0125,02,03
+EHS5-E				,1e2d,0058,00,06

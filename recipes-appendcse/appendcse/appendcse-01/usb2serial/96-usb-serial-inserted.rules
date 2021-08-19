@@ -1,0 +1,11 @@
+# judge ttyUSB* and ttyACM* is LTEModem or GPSData 
+
+ACTION=="add", KERNELS=="ttyUSB*", SUBSYSTEM=="tty", SUBSYSTEMS=="usb-serial", RUN+="/usr/bin/rtx/rtx_uevent_notify usb-modem-add %k"
+ACTION=="add", KERNELS=="ttyUSB*", SUBSYSTEM=="tty", SUBSYSTEMS=="usb-serial", RUN+="/usr/bin/rtx/rtx_uevent_notify usb-gps-add %k"
+ACTION=="remove", KERNELS=="ttyUSB*", SUBSYSTEM=="tty", SUBSYSTEMS=="usb-serial", RUN+="/usr/bin/rtx/rtx_uevent_notify usb-modem-remove %k"
+
+ACTION=="add", KERNELS=="ttyACM*",SUBSYSTEM=="tty", RUN+="/usr/bin/rtx/rtx_uevent_notify usb-acm-add %k"
+ACTION=="add", KERNELS=="ttyACM*",SUBSYSTEM=="tty", RUN+="/usr/bin/rtx/rtx_uevent_notify usb-gps-add %k"
+ACTION=="remove", KERNELS=="ttyACM*", SUBSYSTEM=="tty", SUBSYSTEMS=="usb", RUN+="/usr/bin/rtx/rtx_uevent_notify usb-acm-remove %k"
+
+

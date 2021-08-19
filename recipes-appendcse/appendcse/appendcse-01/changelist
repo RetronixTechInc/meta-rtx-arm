@@ -1,0 +1,39 @@
+==========BSP Version 0.0.0 20210820==========
+	mcu修改為1MHZ
+	mcu增加5秒IGN開機
+	uboot修正 i2c1 100K
+	kernel修正i2c1 100K
+	增加 usb2serial 
+	增加 dnf
+
+==========BSP Version 0.0.0 20210721==========
+	增加 regs_bin for ksz9563
+	增加 v4l-utils yavta imx-gst1.0-plugin gstreamer1.0 gst-rtsp
+	增加 fuse-exfat exfat-utils
+
+==========BSP Version 0.0.0 20210310==========
+	增加 ethtool
+	update kernel for usb_serial
+
+==========BSP Version 0.0.0 20210304==========
+	enable CONFIG_USB_SERIAL_FTDI_SIO
+	enable CONFIG_USB_NET_RNDIS_HOST
+	disable gnss_reset
+	modify hdmi lt9611 configure
+	modify 5G MV31 configure
+
+==========BSP Version 0.0.0 20210104==========
+	modify gpio-counter driver
+	update for 1-wire
+	gyro issue (ethernet+hdmi)
+	buzzer dts
+	增加 sudo
+	add mbim-network.conf
+	libmbim_1.18.0.bb
+	add simcom_wwan driversimcom_wwan driver
+	增加 procps iputils iproute2 tcpdump modemmanager libmbim
+
+==========BSP Version 0.0.0 20201013==========
+	add CINTERION_PRODUCT_MV31 .
+	enable CONFIG_USB_WDM & CONFIG_USB_NET_CDC_MBIM of rtx-imx8mm-cse_defconfig.
+

@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+
+CMDLINE=`cat /proc/cmdline`
+CONSOLE_TMP=${CMDLINE#*console=}
+CONSOLE=${CONSOLE_TMP%,*}
+
+MODEMPATH=/run/modem
+MODEMLOG=${MODEMPATH}/log
+MODEM_CMD=LTECMD
+MODEM_NAME=LTEModem
+
+LTE_JSON_FILE=/usr/bin/rtx/lte.json
+
+GPSPATH=/run/gps
+GPSLOG=${GPSPATH}/log
+GPS_CMD=GPSCMD
+GPS_NAME=GPSData
+
+
+function proccess_check()
+{
+	iretry=$1
+	PROCNAME=$2
+	icount=0
+	RETVAL=1
+	
+	while [ ${icount} -lt ${iretry} ]; do
+		if [ `pgrep -x ${PROCNAME} | wc -l` != 0 ]; then
+			RETVAL=0
+			break
+		else
+			icount=`expr ${icount} + 1`
+			if [ ${icount} -lt ${iretry} ]; then
+				sleep 1
+			else
+				RETVAL=1
+				break
+			fi
+		fi
+	done
+}
+
+killproc()
+{
+	proccess_check 1 ${1}
+	if [ 0 -eq ${RETVAL} ]; then 
+		killall ${1}	
+	fi
+}

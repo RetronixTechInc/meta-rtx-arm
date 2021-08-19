@@ -1,0 +1,275 @@
+#!/usr/bin/env bash
+
+#=======arg=========
+RTX_BIN_DIR=/usr/bin/rtx
+#~ RTX_BIN_DIR=.
+SUPPORTLIST=${RTX_BIN_DIR}/gpslist
+
+. ${RTX_BIN_DIR}/rtx_debug_def #include define
+
+CMD=$1
+DEVID=$2
+
+#message show and save
+#~ DEBUG_PORT=/dev/${CONSOLE}
+DEBUGLOG=${GPSLOG}/gps.log
+
+ret=1
+
+PRODUCT_INFO=
+PRODUCT_IDPRODUCT=
+PRODUCT_IDVENDOR=
+PRODUCT_MODE=0
+
+dbgout()
+{
+	if [ ! -z "${DEBUG_PORT}" ]; then
+		echo "[gps_handler] "$@ >> ${DEBUG_PORT}
+	fi
+	
+	if [ ! -z "${DEBUGLOG}" ]; then
+		[ ! -e ${GPSLOG} ] && mkdir -p ${GPSLOG}
+		echo "[gps_handler] "$@ >> ${DEBUGLOG}
+	fi
+	dummy=
+}
+
+dbgout "[start] $@"
+
+#-----------
+# functions 
+#-----------
+
+err_abort()
+{
+	dbgout "err abort : $1" 
+	exit 1
+}
+
+noerr_abort()
+{
+	dbgout "warning : $1"
+	exit 0
+}
+
+#~ Every Module special judge
+#~ vendor product data,cmd,gps
+is_special_modem()
+{
+	retval=1
+	CHECK_IF=${1}
+	CHECK_MODE=${2}
+	
+	devlist=`cat ${SUPPORTLIST}`
+	echo "devlist=${devlist}"
+	IFS=$'\n'
+	for dev in ${devlist}; do
+		if [ ${dev:0:1} != '#' ]; then
+			# split string to array
+			OLD_IFS="$IFS"
+			IFS=","
+			arrdev=( ${dev} )
+			IFS="$OLD_IFS"
+			if [ ${#arrdev[@]} -lt 5 ]; then
+				return 1
+			fi
+			IDVENDOR="$(echo -e "${arrdev[1]}" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')"
+			IDPRODUCT="$(echo -e "${arrdev[2]}" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')"
+			CMDNUM="$(echo -e "${arrdev[3]}" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')"
+			DATANUM="$(echo -e "${arrdev[4]}" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')"
+			
+			if [ "${PRODUCT_IDVENDOR}" == "${IDVENDOR}" ] && [ "${PRODUCT_IDPRODUCT}" == "${IDPRODUCT}" ]; then
+				checkval=`cat ${CHECK_IF}/${CHECK_MODE}bInterfaceNumber`
+				dbgout "${IDVENDOR} ${IDPRODUCT} ${CMDNUM} ${DATANUM} bInterfaceNumber=${checkval}"
+				if [ "${checkval}" = "${CMDNUM}" ]; then
+					if [ "${CMDNUM}" = "${DATANUM}" ]; then
+						PRODUCT_MODE="cmddata"
+					else
+						PRODUCT_MODE="cmd"
+					fi
+					echo "PRODUCT_MODE=${PRODUCT_MODE}"
+					retval=0
+					break;
+				elif [ "${checkval}" = "${DATANUM}" ]; then
+					PRODUCT_MODE="data"
+					retval=0
+					break;
+				else
+					retval=1
+					break;
+				fi
+			fi
+		fi
+	done
+	return ${retval}
+}
+
+# -- is_gps ttyUSBN
+is_gps()
+{
+	local CHECK_DEVID=$1
+	local CHECK_LEVEL=$2
+	
+	local DEVCFG="/sys/class/tty/${CHECK_DEVID}/device"
+	local DEVAPPEND=""
+	
+	if [ ! -e "${DEVCFG}/uevent" ]; then
+		dbgout "device config not found! ${DEVCFG}/uevent"
+		return 1
+	fi
+
+	. ${DEVCFG}/uevent
+	if [ x"${PHYSDEVBUS}" = x -a x"${PHYSDEVDRIVER}" = x ]; then
+		PHYSDEVDRIVER=`ls -l ${DEVCFG}/driver | sed 's/^[a-zA-Z0-9 :./>-]*drivers[/]//'`
+		PHYSDEVBUS=`ls -l ${DEVCFG}/subsystem | sed 's/^[a-zA-Z0-9 :./>-]*bus[/]//'`
+	fi
+	dbgout "PHYSDEVBUS=${PHYSDEVBUS}, PHYSDEVDRIVER=${PHYSDEVDRIVER}"
+	
+	if [ ! "${PHYSDEVBUS}" == "usb" -o ! "${PHYSDEVDRIVER}" == "cdc_acm" ]; then
+		if [ ! "${PHYSDEVBUS}" == "usb-serial" -o ! "${PHYSDEVDRIVER}" == "option1" ]; then
+			return 1
+		elif [ -z "${CHECK_LEVEL}" ]; then
+			return 0
+		fi
+		DEVAPPEND="../"
+	else
+		DEVAPPEND=""
+	fi
+	
+	usleep 500000
+	PRODUCT_INFO=`cat ${DEVCFG}/${DEVAPPEND}../product 2>/dev/null`
+	PRODUCT_IDPRODUCT=`cat ${DEVCFG}/${DEVAPPEND}../idProduct 2>/dev/null`
+	PRODUCT_IDVENDOR=`cat ${DEVCFG}/${DEVAPPEND}../idVendor 2>/dev/null`
+	dbgout "PRODUCT_IDVENDOR=${PRODUCT_IDVENDOR}; PRODUCT_IDPRODUCT=${PRODUCT_IDPRODUCT}"
+	is_special_modem ${DEVCFG} "${DEVAPPEND}"; ret=$?
+	return ${ret}
+}
+
+# -- add_cmd /dev/GPSCMD
+# -- add_modem /dev/GPSDATA
+add_cmd()
+{
+	ADD_DEVID=$1
+	ADD_TTYNAME=$2
+	dbgout "modem cmd found: ${ADD_DEVID} ..." 
+	
+	if [ -e /dev/tty${ADD_TTYNAME} ]; then
+		dbgout "${ADD_TTYNAME} exists..." 
+		return 1;
+	fi
+
+	# -- create device link
+	ln -sf ${DEVID} /dev/tty${ADD_TTYNAME}
+	dbgout "create link ${DEVID} /dev/tty${ADD_TTYNAME}"
+
+	return 0
+}
+
+add_gps()
+{
+	ADD_DEVID=$1
+	ADD_TTYNAME=$2
+	dbgout "gps data found: ${ADD_DEVID} ..." 
+	
+	if [ -e /dev/tty${ADD_TTYNAME} ]; then
+		dbgout "${ADD_TTYNAME} exists..." 
+		return 1;
+	fi
+
+	# -- create device link
+	ln -sf ${DEVID} /dev/tty${ADD_TTYNAME}
+	dbgout "create link ${DEVID} /dev/tty${ADD_TTYNAME}"
+
+	# -- build device info
+	[ ! -e ${GPSPATH}/${ADD_TTYNAME} ] && mkdir -p ${GPSPATH}/${ADD_TTYNAME}
+	echo "PRODUCT_INFO=\"${PRODUCT_INFO}\"" > ${GPSPATH}/${ADD_TTYNAME}/dev.cfg
+	echo "PRODUCT_IDPRODUCT=\"${PRODUCT_IDPRODUCT}\"" >> ${GPSPATH}/${ADD_TTYNAME}/dev.cfg
+	echo "PRODUCT_IDVENDOR=\"${PRODUCT_IDVENDOR}\"" >> ${GPSPATH}/${ADD_TTYNAME}/dev.cfg
+	echo "net3g_status=0" > ${GPSPATH}/${ADD_TTYNAME}/status.cfg
+	rm -f ${GPSPATH}/${ADD_DEVID}
+	ln -s ${ADD_TTYNAME} ${GPSPATH}/${ADD_DEVID} 
+
+	return 0
+}
+
+# -- stop gps GPSData
+stop_gps()
+{
+	dbgout "stop_gps"
+}
+
+# -- check_gps ttyUSBN GPSData
+check_gps()
+{
+	ACTIVE_DEVID=$1
+	ACTIVE_TTYNAME=$2
+	if [ -e ${GPSPATH}/${ACTIVE_DEVID} ]; then
+		LINK=`readlink ${GPSPATH}/${ACTIVE_DEVID} 2>/dev/null`
+		#if [ x"${LINK}" == x"${ACTIVE_TTYNAME}" ]; then
+		if (echo "${LINK}" | grep "${ACTIVE_TTYNAME}" 2>/dev/null); then
+			return 0
+		fi
+	fi	
+	return 1
+}
+
+# -- remove gps ttyUSBN GPSData
+remove_gps()
+{
+    REMOVE_DEVID=$1 
+    REMOVE_TTYNAME=$2
+                
+	# -- remove device info/link
+	rm -f ${GPSPATH}/${REMOVE_DEVID}
+	
+	[ -n "${REMOVE_TTYNAME}" ] && rm -rf ${GPSPATH}/${REMOVE_TTYNAME}
+	[ -n "${REMOVE_TTYNAME}" ] && rm -f /dev/tty${REMOVE_TTYNAME}
+}
+
+#-----------
+# add gps
+#-----------
+if [ x"${CMD}" == x"add" ]; then
+
+	is_gps ${DEVID} 1 ; ret=$?
+	[ ${ret} == "0" ] || noerr_abort "${DEVID} is not a gps"
+	
+	if [ "${PRODUCT_MODE}" == "data" ]; then #~ For Data Port
+		add_gps ${DEVID} ${GPS_NAME}; ret=$?
+	elif [ "${PRODUCT_MODE}" == "cmd" ]; then #~ For CMD Port
+		add_cmd ${DEVID} ${GPS_CMD}; ret=$?
+	elif [ "${PRODUCT_MODE}" == "cmddata" ]; then #~ For CMD and Data Port
+		add_cmd ${DEVID} ${GPS_CMD}; ret=$?
+		add_gps ${DEVID} ${GPS_NAME}; ret=$?
+	fi
+	
+	[ ${ret} == "0" ] || err_abort "cannot add new gps : ${DEVID} ${GPS_NAME}"
+	
+#------------
+# remove gps
+#-----------
+elif [ x"${CMD}" == x"remove" ]; then
+
+	if [ -e ${GPSPATH}/${DEVID} ]; then
+		check_gps ${DEVID} ${GPS_NAME}; ret=$?
+		if [ ${ret} == "0" ]; then
+			stop_gps ${GPS_NAME}
+			remove_gps ${DEVID} ${GPS_NAME}
+			remove_gps ${DEVID} ${GPS_CMD}
+		else
+			remove_gps ${DEVID}
+		fi
+	else
+		ret=1
+	fi
+	
+#------------
+# is gps
+#-----------
+elif [ x"${CMD}" == x"isgps" ]; then
+	is_gps ${DEVID}; ret=$?
+	dbgout "is_gps ${DEVID}; ret=${ret}"
+fi 
+# -- end of command handling
+
+exit ${ret}
