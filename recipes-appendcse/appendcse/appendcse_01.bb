@@ -27,6 +27,7 @@ SRC_URI = " \
 	file://usb2serial/rtx_gps_handler \
 	file://usb2serial/rtx_modem_handler \
 	file://usb2serial/rtx_uevent_notify \
+	file://regs_bin \
            "
 
 INSANE_SKIP_${PN} = "ldflags"
@@ -74,5 +75,7 @@ do_install() {
 	install -m 0777 ${WORKDIR}/usb2serial/gpslist ${D}/usr/bin/rtx/
 	install -m 0777 ${WORKDIR}/usb2serial/modemlist ${D}/usr/bin/rtx/
 	install -m 0777 ${WORKDIR}/usb2serial/rtx_debug_def ${D}/usr/bin/rtx/
+
+	install -m 0777 ${WORKDIR}/regs_bin ${D}/usr/bin/
 }
 

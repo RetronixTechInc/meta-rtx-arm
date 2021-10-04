@@ -1,3 +1,15 @@
+==========BSP Version 0.0.0 20211001==========
+	增加 opencv fetchmail procmail
+	增加 lterssi
+	修改 networkmanager
+	增加 regs_bin for KSZ9563
+	修改 gstreamer1.0-rtsp-server
+	u-boot 修改 pca6416 init
+	u-boot 增加 vBootsel_Efm32Loadconfig
+	Kernel 修改 rtc
+	Kernel 修改 wakeup gpio_keys
+	Kernel 關閉 led_data led_lte led_gnss
+	mcu 更改為 04060301
 ==========BSP Version 0.0.0 20210820==========
 	mcu修改為1MHZ
 	mcu增加5秒IGN開機

@@ -1,0 +1,9 @@
+[Unit]
+Description=monitor LTE RSSI.
+
+[Service]
+Type=simple
+ExecStart=/bin/sh -c '/usr/sbin/lteRSSI.sh'
+
+[Install]
+WantedBy=multi-user.target

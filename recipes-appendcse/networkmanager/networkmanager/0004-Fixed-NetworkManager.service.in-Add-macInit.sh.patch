@@ -1,0 +1,13 @@
+diff --git a/data/NetworkManager.service.in b/data/NetworkManager.service.in
+index 51e5eb6..c9d3e56 100644
+--- a/data/NetworkManager.service.in
++++ b/data/NetworkManager.service.in
+@@ -10,7 +10,7 @@ else
+ BusName=org.freedesktop.NetworkManager
+ ExecReload=/usr/bin/dbus-send --print-reply --system --type=method_call --dest=org.freedesktop.NetworkManager /org/freedesktop/NetworkManager org.freedesktop.NetworkManager.Reload uint32:0
+ #ExecReload=/bin/kill -HUP $MAINPID
+-ExecStart=@sbindir@/NetworkManager --no-daemon
++ExecStart=/bin/sh -c '@sbindir@/macInit.sh ; @sbindir@/NetworkManager --no-daemon'
+ Restart=on-failure
+ # NM doesn't want systemd to kill its children for it
+ KillMode=process

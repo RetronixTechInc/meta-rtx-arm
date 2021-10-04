@@ -59,9 +59,13 @@ gstreamer1.0			\
 gstreamer1.0-plugins-base	\
 gstreamer1.0-plugins-good	\
 gstreamer1.0-plugins-bad	\
-gstreamer1.0-rtsp-server	\
+gstreamer1.0-rtsp-server-rtx	\
 gst-rtsp			\
 fuse-exfat			\
 exfat-utils			\
 dnf			\
+opencv				\
+fetchmail			\
+procmail			\
+lterssi			\
 "
