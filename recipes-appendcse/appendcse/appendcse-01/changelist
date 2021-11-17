@@ -1,3 +1,11 @@
+==========BSP Version 0.0.0 20211107==========
+	修改 lteRSSI.sh
+	取消 lteRSSI.sh
+	uboot 修改 pca6416 LED init function.
+	kernel 修改 mxc_gpio_suspend & mxc_gpio_resume for LED.
+==========BSP Version 0.0.0 20211006==========
+	uboot修正 i2c3 400K
+	kernel修正i2c3 400K
 ==========BSP Version 0.0.0 20211001==========
 	增加 opencv fetchmail procmail
 	增加 lterssi

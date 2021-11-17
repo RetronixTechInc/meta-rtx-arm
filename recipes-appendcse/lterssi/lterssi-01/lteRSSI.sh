@@ -46,18 +46,18 @@ signal_status()
 		RETVAL=$(expr ${arrayALL[0]})
 #		echo $RETVAL
 		if [ ${RETVAL} -lt ${LEVEL2} ]; then
-			gpioset gpiochip5 3=1
-		else
 			gpioset gpiochip5 3=0
+		else
+			gpioset gpiochip5 3=1
 		fi
 		if [ ${RETVAL} -gt ${LEVEL1} ]; then
-			gpioset gpiochip5 2=1
+			gpioset gpiochip5 2=0
 		else
-			gpioset gpiochip5 2=1
+			gpioset gpiochip5 2=0
 		fi
 		if [ ${RETVAL} = 99 ]; then
-			gpioset gpiochip5 2=0
-			gpioset gpiochip5 3=0
+			gpioset gpiochip5 2=1
+			gpioset gpiochip5 3=1
 		fi
 
 	done
@@ -78,8 +78,8 @@ while true ;do
 		sleep $SLEEPTIME
 	else
 		if [ $FLAG = "ON" ]; then
-			gpioset gpiochip5 2=0
-			gpioset gpiochip5 3=0
+			gpioset gpiochip5 2=1
+			gpioset gpiochip5 3=1
 			SLEEPTIME=16
 			FLAG=OFF
 		fi

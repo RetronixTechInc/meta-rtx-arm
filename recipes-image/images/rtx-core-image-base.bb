@@ -67,5 +67,4 @@ dnf			\
 opencv				\
 fetchmail			\
 procmail			\
-lterssi			\
 "
