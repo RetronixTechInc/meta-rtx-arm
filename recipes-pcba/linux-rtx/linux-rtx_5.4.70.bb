@@ -74,7 +74,7 @@ do_compile() {
 		# be set....
 		if [ "${SOURCE_DATE_EPOCH}" = "" -o "${SOURCE_DATE_EPOCH}" = "0" ]; then
 			olddir=`pwd`
-			cd /media/alston/Yocto_Disk/yocto_sources/build_5470_fb/tmp/work/imx6q_ohga-poky-linux-gnueabi/linux-rtx/5.4.70-r0/git
+			cd ${S}
 			SOURCE_DATE_EPOCH=`git log  -1 --pretty=%ct`
 			# git repo not guaranteed, so fall back to REPRODUCIBLE_TIMESTAMP_ROOTFS
 			if [ $? -ne 0 ]; then
@@ -99,15 +99,11 @@ do_compile() {
 		# The old style way of copying an prebuilt image and building it
 		# is turned on via INTIRAMFS_TASK != ""
 		copy_initramfs
-		use_alternate_initrd=CONFIG_INITRAMFS_SOURCE=/media/alston/Yocto_Disk/yocto_sources/build_5470_fb/tmp/work/imx6q_ohga-poky-linux-gnueabi/linux-rtx/5.4.70-r0/build/usr/.cpio
+		use_alternate_initrd=CONFIG_INITRAMFS_SOURCE=${B}/usr/${INITRAMFS_IMAGE_NAME}.cpio
 	fi
 	cc_extra=$(get_cc_option)
 	for typeformake in uImage ; do
-#		oe_runmake ${typeformake} CC="arm-poky-linux-gnueabi-gcc  -mno-thumb-interwork -marm -fuse-ld=bfd -fmacro-prefix-map=/media/alston/Yocto_Disk/yocto_sources/build_5470_fb/tmp/work/imx6q_ohga-poky-linux-gnueabi/linux-rtx/5.4.70-r0=/usr/src/debug/linux-rtx/5.4.70-r0                      -fdebug-prefix-map=/media/alston/Yocto_Disk/yocto_sources/build_5470_fb/tmp/work/imx6q_ohga-poky-linux-gnueabi/linux-rtx/5.4.70-r0=/usr/src/debug/linux-rtx/5.4.70-r0                      -fdebug-prefix-map=/media/alston/Yocto_Disk/yocto_sources/build_5470_fb/tmp/work/imx6q_ohga-poky-linux-gnueabi/linux-rtx/5.4.70-r0/recipe-sysroot=                      -fdebug-prefix-map=/media/alston/Yocto_Disk/yocto_sources/build_5470_fb/tmp/work/imx6q_ohga-poky-linux-gnueabi/linux-rtx/5.4.70-r0/recipe-sysroot-native=  -fdebug-prefix-map=/media/alston/Yocto_Disk/yocto_sources/build_5470_fb/tmp/work-shared/imx6q-ohga/kernel-source=/usr/src/kernel $cc_extra " LD="arm-poky-linux-gnueabi-ld.bfd  "  LOADADDR=0x10008000 $use_alternate_initrd
-
-		export ARCH=arm
-		export CROSS_COMPILE=/opt/cross/gcc-linaro-7.4.1-2019.02-x86_64_arm-linux-gnueabihf/bin/arm-linux-gnueabihf-
-		oe_runmake ${typeformake} -j8 LD="arm-poky-linux-gnueabi-ld.bfd" LOADADDR=0x10008000 $use_alternate_initrd
+		oe_runmake CROSS_COMPILE=/usr/bin/arm-linux-gnueabihf- ${typeformake} -j8 LD="arm-poky-linux-gnueabi-ld.bfd" LOADADDR=0x10008000 $use_alternate_initrd
 	done
 	# vmlinux.gz is not built by kernel
 	if (echo "uImage" | grep -wq "vmlinux\.gz"); then
