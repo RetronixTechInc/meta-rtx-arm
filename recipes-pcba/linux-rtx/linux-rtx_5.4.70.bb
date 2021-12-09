@@ -14,9 +14,9 @@ DEPENDS += "lzop-native bc-native"
 
 LOCALVERSION = "-2.3.0"
 
-SRCBRANCH = "RTX_5.4.70_2.3.0"
+SRCBRANCH = "RTX_PICO_demo1"
 SRC_URI = "git://github.com/RetronixTechInc/linux-rtx.git;protocol=git;branch=${SRCBRANCH}"
-SRCREV = "RTX_5.4.70_2.3.0"
+SRCREV = "RTX_PICO_demo1"
 
 FILES_${KERNEL_PACKAGE_NAME}-base += "${nonarch_base_libdir}/modules/${KERNEL_VERSION}/modules.builtin.modinfo "
 

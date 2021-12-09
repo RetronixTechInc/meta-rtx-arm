@@ -14,9 +14,9 @@ DEPENDS_append = " dtc-native"
 LICENSE = "GPLv2+"
 LIC_FILES_CHKSUM = "file://Licenses/gpl-2.0.txt;md5=b234ee4d69f5fce4486a80fdaf4a4263"
 
-SRCBRANCH = "RTX_2020.04"
+SRCBRANCH = "RTX_2020.04_demo1"
 SRC_URI = "git://github.com/RetronixTechInc/u-boot-rtx.git;protocol=https;branch=${SRCBRANCH}"
-SRCREV = "RTX_2020.04"
+SRCREV = "RTX_2020.04_demo1"
 
 S = "${WORKDIR}/git"
 
