@@ -7,19 +7,10 @@ else
         echo "The system will wake up after $1 seconds"
 fi
 
-hwclock -w -u
-
-year=$(date +%Y -d@"$(( `date +%s`+$1))")
-mon=$(date +%m -d@"$(( `date +%s`+$1))")
-day=$(date +%d -d@"$(( `date +%s`+$1))")
-hours=$(date +%H -d@"$(( `date +%s`+$1))")
-min=$(date +%M -d@"$(( `date +%s`+$1))")
-sec=$(date +%S -d@"$(( `date +%s`+$1))")
-
-year=$(($year - 1970))
-dat="$year|$mon|$day|$hours|$min|$sec"
-
-efm32cmd 0 12 -sa $dat
+SEC=$(efm32cmd 0 12 -c | grep sec. | awk '{print $2}')
+SEC=$(($SEC + $1))
+#echo "RTC wakeup time $(date -d@$SEC)."
+efm32cmd 0 12 -sa $SEC
 
 i2cset -y -f 2 0x6a 0x0B 0x00
 i2cset -y -f 2 0x6a 0x10 0x50

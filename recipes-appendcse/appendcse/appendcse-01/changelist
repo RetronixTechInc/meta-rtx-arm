@@ -1,4 +1,9 @@
-==========BSP Version 0.0.0 20211107==========
+==========BSP Version 0.0.0 20211215==========
+	修改 lteRSSI.sh
+	修改 .sleep.gyro
+	增加 srt libsrtp ffmpeg
+	mcu 更改為 04060303
+==========BSP Version 0.0.0 20211117==========
 	修改 lteRSSI.sh
 	取消 lteRSSI.sh
 	uboot 修改 pca6416 LED init function.

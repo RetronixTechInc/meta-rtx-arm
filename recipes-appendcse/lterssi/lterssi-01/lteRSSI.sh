@@ -16,8 +16,6 @@ WV_Signal=${CHANNEL}SignalStatus
 
 signal_status()
 {
-#	local strength_limit=$(expr ${1})
-
 	if [ $(cat ${cmd_conf} | grep $WV_Signal | wc -l) == 0 ]; then
 		echo "[Dialer ${CHANNEL}SignalStatus]" >> $cmd_conf
 		echo "Init1 = AT+CSQ" >> $cmd_conf
@@ -44,7 +42,7 @@ signal_status()
 		arrayALL=( $signal_str[1] )
 		IFS="$OLD_IFS"
 		RETVAL=$(expr ${arrayALL[0]})
-#		echo $RETVAL
+
 		if [ ${RETVAL} -lt ${LEVEL2} ]; then
 			gpioset gpiochip5 3=0
 		else

@@ -1,0 +1,37 @@
+diff --git a/ext/srt/gstsrt.c b/ext/srt/gstsrt.c
+--- a/ext/srt/gstsrt.c
++++ b/ext/srt/gstsrt.c
+@@ -81,7 +81,7 @@
+   /* This is a sink, we're always a receiver */
+   srt_setsockopt (sock, 0, SRTO_SENDER, &sender, sizeof (int));
+ 
+-  srt_setsockopt (sock, 0, SRTO_TSBPDDELAY, &latency, sizeof (int));
++  srt_setsockopt (sock, 0, SRTO_LATENCY, &latency, sizeof (int));
+ 
+   srt_setsockopt (sock, 0, SRTO_RENDEZVOUS, &rendez_vous, sizeof (int));
+ 
+diff --git a/ext/srt/gstsrtserversink.c b/ext/srt/gstsrtserversink.c
+--- a/ext/srt/gstsrtserversink.c
++++ b/ext/srt/gstsrtserversink.c
+@@ -320,7 +320,7 @@
+   srt_setsockopt (priv->sock, 0, SRTO_SENDER, &(int) {
+       1}, sizeof (int));
+ 
+-  srt_setsockopt (priv->sock, 0, SRTO_TSBPDDELAY, &lat, sizeof (int));
++  srt_setsockopt (priv->sock, 0, SRTO_LATENCY, &lat, sizeof (int));
+ 
+   if (base->passphrase != NULL && base->passphrase[0] != '\0') {
+     srt_setsockopt (priv->sock, 0, SRTO_PASSPHRASE,
+diff --git a/ext/srt/gstsrtserversrc.c b/ext/srt/gstsrtserversrc.c
+--- a/ext/srt/gstsrtserversrc.c
++++ b/ext/srt/gstsrtserversrc.c
+@@ -317,7 +317,7 @@
+   srt_setsockopt (priv->sock, 0, SRTO_SENDER, &(int) {
+       0}, sizeof (int));
+ 
+-  srt_setsockopt (priv->sock, 0, SRTO_TSBPDDELAY, &lat, sizeof (int));
++  srt_setsockopt (priv->sock, 0, SRTO_LATENCY, &lat, sizeof (int));
+ 
+   if (base->passphrase != NULL && base->passphrase[0] != '\0') {
+     srt_setsockopt (priv->sock, 0, SRTO_PASSPHRASE,
+--
