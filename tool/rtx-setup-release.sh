@@ -154,6 +154,8 @@ else
     cp $BUILD_DIR/conf/local.conf.org $BUILD_DIR/conf/local.conf
 fi
 
+cp sources/meta-rtx-arm/tool/rtx-uboot-bootpart.wic sources/meta-freescale/wic/imx-uboot-bootpart.wks.in
+
 echo >> conf/local.conf
 echo "# Switch to Debian packaging and include package-management in the image" >> conf/local.conf
 echo "PACKAGE_CLASSES = \"package_deb\"" >> conf/local.conf
