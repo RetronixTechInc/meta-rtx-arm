@@ -154,8 +154,6 @@ else
     cp $BUILD_DIR/conf/local.conf.org $BUILD_DIR/conf/local.conf
 fi
 
-cp sources/meta-rtx-arm/tool/rtx-uboot-bootpart.wic sources/meta-freescale/wic/imx-uboot-bootpart.wks.in
-
 echo >> conf/local.conf
 echo "# Switch to Debian packaging and include package-management in the image" >> conf/local.conf
 echo "PACKAGE_CLASSES = \"package_deb\"" >> conf/local.conf
@@ -168,7 +166,8 @@ else
     cp $BUILD_DIR/conf/bblayers.conf.org $BUILD_DIR/conf/bblayers.conf
 fi
 
-
+cp $BUILD_DIR/../sources/meta-rtx-arm/tool/rtx-uboot-bootpart.wic $BUILD_DIR/../sources/meta-freescale/wic/imx-uboot-bootpart.wks.in
+tar -xvf $BUILD_DIR/../sources/meta-rtx-arm/tool/uuu_tools.tar.xz -C .
 META_FSL_BSP_RELEASE="${CWD}/sources/meta-imx/meta-bsp"
 
 echo "" >> $BUILD_DIR/conf/bblayers.conf
