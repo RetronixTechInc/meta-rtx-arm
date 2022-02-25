@@ -1,3 +1,14 @@
+==========BSP Version 0.0.0 20220221==========
+	修改 fontconfig 版本 2.13.1
+	增加 initled
+	修改 usb-mount.sh
+	uboot 修改 led_init function.
+	uboot 修改 env_load function.
+==========BSP Version 0.0.0 20220211==========
+	修改 ffmpeg 版本 4.4.1
+	增加 ffmpeg configure enable-libsrt enable-gpl enable-libx264
+	增加 ffmpeg configure enable-libfribidi enable-libfontconfig enable-libfreetype
+	mcu 更改為 04060304
 ==========BSP Version 0.0.0 20211215==========
 	修改 lteRSSI.sh
 	修改 .sleep.gyro

@@ -1,0 +1,9 @@
+[Unit]
+Description=start initled upon first boot
+
+[Service]
+Type=simple
+ExecStart=/bin/sh -c '/usr/sbin/initled.sh'
+
+[Install]
+WantedBy=multi-user.target

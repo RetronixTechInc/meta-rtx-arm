@@ -31,6 +31,30 @@ MOUNT_POINT=$(mount | grep ${DEVICE} | awk '{ print $3 }')
 
 DEV_LABEL=""
 
+CMDLINE=`cat /proc/cmdline`
+CONSOLE_TMP=${CMDLINE#*console=}
+CONSOLE=${CONSOLE_TMP%%,*}
+DEBUG_PORT=/dev/${CONSOLE}
+
+print() {
+	echo $1 > ${DEBUG_PORT}
+	echo $1 > /dev/tty1
+}
+
+update_check()
+{
+	if [ -d ${1} ]; then
+		check_update ${1}/check_code
+		if [ $? -ne 0 ]; then
+			if [ -f ${1}/autorun.sh ]; then
+				print "autorun.sh ${1}....."
+				cd ${1}
+				/bin/bash ${1}/autorun.sh ${1}
+			fi
+		fi
+	fi
+}
+
 do_mount()
 {
     if [[ -n ${MOUNT_POINT} ]]; then
@@ -78,6 +102,8 @@ do_mount()
     fi
 
     ${log} "Mounted ${DEVICE} at ${MOUNT_POINT}"
+
+    update_check ${MOUNT_POINT} &
 }
 
 do_unmount()

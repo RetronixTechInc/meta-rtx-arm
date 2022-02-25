@@ -70,4 +70,5 @@ procmail			\
 ffmpeg			\
 srt			\
 libsrtp			\
+initled				\
 "

@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://Licenses/gpl-2.0.txt;md5=b234ee4d69f5fce4486a80fdaf4a
 
 SRCBRANCH = "RTX_2018.03"
 SRC_URI = "git://github.com/RetronixTechInc/u-boot-rtx.git;protocol=https;branch=${SRCBRANCH}"
-SRCREV = "88d5bfdced81394b49349ef86be39c64d7f989e7"
+SRCREV = "44b75575de3bada1a6696556fcdad6f53d220dff"
 
 #SRCBRANCH = "Codeaurora_2018.03"
 #SRC_URI = "git://git@192.168.11.5/~/Disk/project_uboot/uboot-alston.git;protocol=ssh;branch=${SRCBRANCH}"
