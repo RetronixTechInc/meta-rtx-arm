@@ -67,50 +67,5 @@ do_merge_delta_config() {
 }
 addtask merge_delta_config before do_preconfigure after do_copy_defconfig
 
-do_compile() {
-	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
-	if [ "${BUILD_REPRODUCIBLE_BINARIES}" = "1" ]; then
-		# kernel sources do not use do_unpack, so SOURCE_DATE_EPOCH may not
-		# be set....
-		if [ "${SOURCE_DATE_EPOCH}" = "" -o "${SOURCE_DATE_EPOCH}" = "0" ]; then
-			olddir=`pwd`
-			cd ${S}
-			SOURCE_DATE_EPOCH=`git log  -1 --pretty=%ct`
-			# git repo not guaranteed, so fall back to REPRODUCIBLE_TIMESTAMP_ROOTFS
-			if [ $? -ne 0 ]; then
-				SOURCE_DATE_EPOCH=${REPRODUCIBLE_TIMESTAMP_ROOTFS}
-			fi
-			cd $olddir
-		fi
-
-		ts=`LC_ALL=C date -d @$SOURCE_DATE_EPOCH`
-		export KBUILD_BUILD_TIMESTAMP="$ts"
-		export KCONFIG_NOTIMESTAMP=1
-		bbnote "KBUILD_BUILD_TIMESTAMP: $ts"
-	fi
-	# The $use_alternate_initrd is only set from
-	# do_bundle_initramfs() This variable is specifically for the
-	# case where we are making a second pass at the kernel
-	# compilation and we want to force the kernel build to use a
-	# different initramfs image.  The way to do that in the kernel
-	# is to specify:
-	# make ...args... CONFIG_INITRAMFS_SOURCE=some_other_initramfs.cpio
-	if [ "$use_alternate_initrd" = "" ] && [ "" != "" ] ; then
-		# The old style way of copying an prebuilt image and building it
-		# is turned on via INTIRAMFS_TASK != ""
-		copy_initramfs
-		use_alternate_initrd=CONFIG_INITRAMFS_SOURCE=${B}/usr/${INITRAMFS_IMAGE_NAME}.cpio
-	fi
-	cc_extra=$(get_cc_option)
-	for typeformake in uImage ; do
-		oe_runmake CROSS_COMPILE=/usr/bin/arm-linux-gnueabihf- ${typeformake} -j8 LD="arm-poky-linux-gnueabi-ld.bfd" LOADADDR=0x10008000 $use_alternate_initrd
-	done
-	# vmlinux.gz is not built by kernel
-	if (echo "uImage" | grep -wq "vmlinux\.gz"); then
-		mkdir -p "arch/arm/boot"
-		gzip -9cn < /media/alston/Yocto_Disk/yocto_sources/build_5470_fb/tmp/work/imx6q_ohga-poky-linux-gnueabi/linux-rtx/5.4.70-r0/build/vmlinux > "arch/arm/boot/vmlinux.gz"
-	fi
-}
-
 COMPATIBLE_MACHINE = "(mx6|mx7|mx8)"
 
