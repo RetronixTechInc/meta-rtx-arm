@@ -6,6 +6,7 @@ PR = "r3"
 SRC_URI =  " \
 	file://initscript.sh \
 	file://initscript.service \
+	file://resizefs.sh \
 "
 inherit allarch systemd
 
@@ -19,6 +20,7 @@ do_compile () {
 do_install () {
 	install -d ${D}/${sbindir}
 	install -m 0755 ${WORKDIR}/initscript.sh ${D}/${sbindir}
+	install -m 0755 ${WORKDIR}/resizefs.sh ${D}/${sbindir}
 
 	install -d ${D}${systemd_unitdir}/system
 	install -m 0644 ${WORKDIR}/initscript.service ${D}${systemd_unitdir}/system

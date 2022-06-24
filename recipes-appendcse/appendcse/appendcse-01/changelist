@@ -1,3 +1,10 @@
+==========BSP Version 0.0.0 20220624==========
+	mcu 更改為 04060401
+==========BSP Version 0.0.0 20220407==========
+	取消 IMAGE_ROOTFS_SIZE = "3145728"
+	增加 e2fsprogs configure e2fsprogs-tune2fs e2fsprogs-badblocks e2fsprogs-resize2fs
+	增加 resizefs.sh
+	增加 eraseuboot.sh
 ==========BSP Version 0.0.0 20220221==========
 	修改 fontconfig 版本 2.13.1
 	增加 initled

@@ -28,6 +28,7 @@ SRC_URI = " \
 	file://usb2serial/rtx_modem_handler \
 	file://usb2serial/rtx_uevent_notify \
 	file://regs_bin \
+	file://eraseuboot.sh \
            "
 
 INSANE_SKIP_${PN} = "ldflags"
@@ -45,6 +46,7 @@ do_install() {
 	install -m 0755 ${WORKDIR}/rtx_setenv ${D}/${sbindir}
 	install -m 0755 ${WORKDIR}/efm32cmd ${D}/${sbindir}
 	install -m 0755 ${WORKDIR}/check_update ${D}/${sbindir}
+	install -m 0644 ${WORKDIR}/eraseuboot.sh ${D}/${sbindir}
 
 	install -d ${D}/etc/udev/scripts
 
