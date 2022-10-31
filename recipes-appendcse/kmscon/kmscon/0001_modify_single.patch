@@ -1,0 +1,11 @@
+--- kmscon-8/src/pty.c	2013-06-12 21:49:06.951643480 +0800
++++ kmscon-8/src/pty.c	2022-10-31 11:52:19.933187279 +0800
+@@ -46,6 +46,8 @@
+ 
+ #define KMSCON_NREAD 16384
+ 
++#define SIGUNUSED SIGSYS
++
+ struct kmscon_pty {
+ 	unsigned long ref;
+ 	struct ev_eloop *eloop;
