@@ -1,6 +1,6 @@
 #! /bin/sh
 #########################################################
-#	resize.sh			2022/04/07	#
+#	resize.sh			2023/11/13	#
 #########################################################
 DEVNODE_NAME="mmcblk2"
 DEVNODE="/dev/${DEVNODE_NAME}"
@@ -18,7 +18,11 @@ let LIMIT_SIZE=3620*1000*1000
 SD_PARTITION_FILE=/tmp/.SD_PARTITION
 
 #### Partition information ####
-PARTITIONS="0:s:64 1:-:64 2:d:- 2:p:3200"
+PARTITIONS="0:s:64 1:-:64 2:d:- 2:p:1200 3:p:2000"
+
+#### Partition formate ####
+PARTITIONS_FS_3="3:ext4:DATA:-F"
+PARTITIONS_FS="PARTITIONS_FS_1 PARTITIONS_FS_2 PARTITIONS_FS_3 PARTITIONS_FS_4 PARTITIONS_FS_5 PARTITIONS_FS_6 PARTITIONS_FS_7 PARTITIONS_FS_8 PARTITIONS_FS_9"
 
 print()
 {
@@ -164,11 +168,96 @@ mk_fdisk() {
     sleep 1
 }
 
+partitions_formate()
+{
+    print "Format partition"
+
+    for PARTITION_FS_TMP in ${PARTITIONS_FS}
+    do
+        eval PARTITION_FS=\$${PARTITION_FS_TMP}
+
+        if [ "${PARTITION_FS}" == "" ]
+        then
+            continue ;
+        fi
+
+        P_NUM=`echo ${PARTITION_FS} | awk -F':' '{print $1}'`
+        P_TYPE=`echo ${PARTITION_FS} | awk -F':' '{print $2}'`
+        P_LABEL=`echo ${PARTITION_FS} | awk -F':' '{print $3}'`
+        P_ARGS=`echo ${PARTITION_FS} | awk -F':' '{print $4}'`
+
+        print "mkfs.${P_TYPE} ${DEVNODE}p${P_NUM} -L/-n ${P_LABEL} ${P_ARGS}"
+
+        if [ -b ${DEVNODE}p${P_NUM} ]
+        then
+            case ${P_TYPE} in
+                "ext2")
+                    if [ "${P_ARGS}" == "" ]
+                    then
+                        mkfs.ext2 ${DEVNODE}p${P_NUM} -L ${P_LABEL}
+                    else
+                        mkfs.ext2 ${DEVNODE}p${P_NUM} -L ${P_LABEL} ${P_ARGS}
+                    fi
+                    mount ${DEVNODE}p${P_NUM} /mnt
+                    rm -rf /mnt/*
+                    umount /mnt
+                    ;;
+                "ext3")
+                    if [ "${P_ARGS}" == "" ]
+                    then
+                        mkfs.ext3 ${DEVNODE}p${P_NUM} -L ${P_LABEL}
+                    else
+                        mkfs.ext3 ${DEVNODE}p${P_NUM} -L ${P_LABEL} ${P_ARGS}
+                    fi
+                    mount ${DEVNODE}p${P_NUM} /mnt
+                    rm -rf /mnt/*
+                    umount /mnt
+                    ;;
+                "ext4")
+                    if [ "${P_ARGS}" == "" ]
+                    then
+                        mkfs.ext4 ${DEVNODE}p${P_NUM} -L ${P_LABEL}
+                    else
+                        mkfs.ext4 ${DEVNODE}p${P_NUM} -L ${P_LABEL} ${P_ARGS}
+                    fi
+                    mount ${DEVNODE}p${P_NUM} /mnt
+                    rm -rf /mnt/*
+                    umount /mnt
+                    ;;
+                "vfat")
+                    if [ "${P_ARGS}" == "" ]
+                    then
+                        mkfs.vfat ${DEVNODE}p${P_NUM} -n ${P_LABEL}
+                    else
+                        mkfs.vfat ${DEVNODE}p${P_NUM} -n ${P_LABEL} ${P_ARGS}
+                    fi
+                    mount ${DEVNODE}p${P_NUM} /mnt
+                    rm -rf /mnt/*
+                    umount /mnt
+                    ;;
+                *)
+                    print "Unknow cmd"
+                    exit 1
+                    ;;
+            esac
+        else
+            print "${DEVNODE}p${P_NUM} was not exist."
+            exit 1
+        fi
+    done
+
+    sync
+    sleep 1
+}
+
 ROOTFS_PERCENT=`df | grep '/dev/root' | awk '{print $5}' | tr -d '%'`
 if [ $ROOTFS_PERCENT -gt 97 ]
 then
     mk_fdisk
 
     resize2fs ${DEVNODE}p2
+
+    partitions_formate
+
     sync
 fi

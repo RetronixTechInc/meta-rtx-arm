@@ -71,4 +71,6 @@ ffmpeg			\
 srt			\
 libsrtp			\
 initled				\
+tftp-hpa		\
+vsftpd			\
 "
