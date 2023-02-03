@@ -1,6 +1,6 @@
 #! /bin/sh
 #########################################################
-#	resize.sh			2023/11/13	#
+#	resize.sh			2023/02/02	#
 #########################################################
 DEVNODE_NAME="mmcblk2"
 DEVNODE="/dev/${DEVNODE_NAME}"
@@ -200,6 +200,7 @@ partitions_formate()
                     fi
                     mount ${DEVNODE}p${P_NUM} /mnt
                     rm -rf /mnt/*
+                    sync
                     umount /mnt
                     ;;
                 "ext3")
@@ -211,6 +212,7 @@ partitions_formate()
                     fi
                     mount ${DEVNODE}p${P_NUM} /mnt
                     rm -rf /mnt/*
+                    sync
                     umount /mnt
                     ;;
                 "ext4")
@@ -222,6 +224,7 @@ partitions_formate()
                     fi
                     mount ${DEVNODE}p${P_NUM} /mnt
                     rm -rf /mnt/*
+                    sync
                     umount /mnt
                     ;;
                 "vfat")
@@ -233,6 +236,7 @@ partitions_formate()
                     fi
                     mount ${DEVNODE}p${P_NUM} /mnt
                     rm -rf /mnt/*
+                    sync
                     umount /mnt
                     ;;
                 *)

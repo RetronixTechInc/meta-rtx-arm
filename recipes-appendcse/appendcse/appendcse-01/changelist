@@ -1,3 +1,15 @@
+==========BSP Version 0.0.0 20230203==========
+	增加 meta-java
+	增加 curl jq openjdk-8
+	修改 resizefs.sh
+==========BSP Version 0.0.0 20230119==========
+	修改 partition2 = 1.2G mount /
+	增加 partition3 = 2G mount /cse_data
+	修改 resizefs.sh
+	增加 openssh-sftp openssh-sftp-server tftp-hpa-server tftp-hpa vsftpd
+	修改 busybox tftp_blocksize.cfg
+==========BSP Version 0.0.0 20221031==========
+	增加 dnsproxy kmscon libtsm lltd
 ==========BSP Version 0.0.0 20220802==========
 	mcu 更改為 04060402
 ==========BSP Version 0.0.0 20220624==========

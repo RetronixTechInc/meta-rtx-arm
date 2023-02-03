@@ -73,4 +73,7 @@ libsrtp			\
 initled				\
 tftp-hpa		\
 vsftpd			\
+curl				\
+jq				\
+openjdk-8			\
 "

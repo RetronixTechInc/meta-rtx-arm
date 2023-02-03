@@ -166,6 +166,8 @@ echo "BBLAYERS += \" \${BSPDIR}/sources/meta-openembedded/meta-python \"" >> $BU
 echo "BBLAYERS += \" \${BSPDIR}/sources/meta-openembedded/meta-filesystems \"" >> $BUILD_DIR/conf/bblayers.conf
 echo "BBLAYERS += \" \${BSPDIR}/sources/meta-openembedded/meta-webserver \"" >> $BUILD_DIR/conf/bblayers.conf
 
+echo "BBLAYERS += \" \${BSPDIR}/sources/meta-java \"" >> $BUILD_DIR/conf/bblayers.conf
+
 echo "BBLAYERS += \" \${BSPDIR}/sources/meta-qt5 \"" >> $BUILD_DIR/conf/bblayers.conf
 echo "BBLAYERS += \" \${BSPDIR}/sources/meta-rtx-arm \"" >> $BUILD_DIR/conf/bblayers.conf
 

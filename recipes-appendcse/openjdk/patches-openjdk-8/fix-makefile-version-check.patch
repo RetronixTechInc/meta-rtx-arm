@@ -1,0 +1,16 @@
+---
+ 161b15-r0/jdk8u-917454da25c1/hotspot/make/linux/Makefile | 2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/hotspot/make/linux/Makefile b/hotspot/make/linux/Makefile
+--- Makefile	2023-01-30 17:10:30.606714505 +0800
++++ Makefile	2023-01-30 16:12:14.000000000 +0800
+@@ -233,7 +233,7 @@
+ # Solaris 2.5.1, 2.6).
+ # Disable this check by setting DISABLE_HOTSPOT_OS_VERSION_CHECK=ok.
+ 
+-SUPPORTED_OS_VERSION = 2.4% 2.5% 2.6% 3% 4%
++SUPPORTED_OS_VERSION = 2.4% 2.5% 2.6% 3% 4% 5%
+ OS_VERSION := $(shell uname -r)
+ EMPTY_IF_NOT_SUPPORTED = $(filter $(SUPPORTED_OS_VERSION),$(OS_VERSION))
+ 
