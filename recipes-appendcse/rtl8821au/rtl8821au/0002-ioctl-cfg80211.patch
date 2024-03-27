@@ -1,0 +1,45 @@
+Date: Tue, 26 Mar 2024 10:41:50 +0800
+Subject: [PATCH] Modify rtw_cfg80211_connect_result function
+---
+ ioctl_cfg80211.c | 28 +++++++++++++++++++++-------
+ 1 file changed, 21 insertions(+), 7 deletions(-)
+
+diff --git a/os_dep/linux/ioctl_cfg80211.c b/os_dep/linux/ioctl_cfg80211.c
+index 70c609a..b5ecf55 100644
+--- a/os_dep/linux/ioctl_cfg80211.c
++++ b/os_dep/linux/ioctl_cfg80211.c
+@@ -1143,13 +1143,27 @@
+ 		RTW_INFO("pwdev->sme_state(b)=%d\n", pwdev->sme_state);
+ 		#endif
+ 
+-		if (check_fwstate(pmlmepriv, WIFI_MONITOR_STATE) != _TRUE)
+-			rtw_cfg80211_connect_result(pwdev, cur_network->network.MacAddress
+-				, pmlmepriv->assoc_req + sizeof(struct rtw_ieee80211_hdr_3addr) + 2
+-				, pmlmepriv->assoc_req_len - sizeof(struct rtw_ieee80211_hdr_3addr) - 2
+-				, pmlmepriv->assoc_rsp + sizeof(struct rtw_ieee80211_hdr_3addr) + 6
+-				, pmlmepriv->assoc_rsp_len - sizeof(struct rtw_ieee80211_hdr_3addr) - 6
+-				, WLAN_STATUS_SUCCESS, GFP_ATOMIC);
++		if (check_fwstate(pmlmepriv, WIFI_MONITOR_STATE) != _TRUE) {
++                        struct cfg80211_bss *bss;
++                        bss = cfg80211_get_bss(pwdev->wiphy, NULL, cur_network->network.MacAddress, NULL, 0,
++                                IEEE80211_BSS_TYPE_ANY, IEEE80211_PRIVACY_ANY);
++		#if (LINUX_VERSION_CODE >= KERNEL_VERSION(4, 10, 0) || defined(CONFIG_CFG80211_CONNECT_BSS_ANDROID))
++                        cfg80211_connect_bss(wdev_to_ndev(pwdev), cur_network->network.MacAddress, bss
++                                , pmlmepriv->assoc_req + sizeof(struct rtw_ieee80211_hdr_3addr) + 2
++                                , pmlmepriv->assoc_req_len - sizeof(struct rtw_ieee80211_hdr_3addr) - 2
++                                , pmlmepriv->assoc_rsp + sizeof(struct rtw_ieee80211_hdr_3addr) + 6
++                                , pmlmepriv->assoc_rsp_len - sizeof(struct rtw_ieee80211_hdr_3addr) - 6
++                                , WLAN_STATUS_SUCCESS, GFP_ATOMIC, NL80211_TIMEOUT_UNSPECIFIED);
++		#else // (LINUX_VERSION_CODE >= KERNEL_VERSION(4, 10, 0))
++                        // Linux < 4.10.x does not accept the last argument (timeout).
++                        cfg80211_connect_bss(wdev_to_ndev(pwdev), cur_network->network.MacAddress, bss
++                                , pmlmepriv->assoc_req + sizeof(struct rtw_ieee80211_hdr_3addr) + 2
++                                , pmlmepriv->assoc_req_len - sizeof(struct rtw_ieee80211_hdr_3addr) - 2
++                                , pmlmepriv->assoc_rsp + sizeof(struct rtw_ieee80211_hdr_3addr) + 6
++                                , pmlmepriv->assoc_rsp_len - sizeof(struct rtw_ieee80211_hdr_3addr) - 6
++                                , WLAN_STATUS_SUCCESS, GFP_ATOMIC);
++		#endif
++		}
+ 		#if LINUX_VERSION_CODE < KERNEL_VERSION(3, 11, 0) || defined(COMPAT_KERNEL_RELEASE)
+ 		RTW_INFO("pwdev->sme_state(a)=%d\n", pwdev->sme_state);
+ 		#endif

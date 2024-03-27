@@ -1,3 +1,8 @@
+==========BSP Version 0.0.0 20240327==========
+	增加 rtl8821au driver
+	修改 Xerces-J-src rhino libsrtp gstreamer1.0-plugins-bad
+	修改 icedtea7 openjdk-8-native openjdk-8
+	修改 nm-system-settings.conf
 ==========BSP Version 0.0.0 20230203==========
 	增加 meta-java
 	增加 curl jq openjdk-8

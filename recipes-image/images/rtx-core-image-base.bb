@@ -76,4 +76,5 @@ vsftpd			\
 curl				\
 jq				\
 openjdk-8			\
+rtl8821au		\
 "
