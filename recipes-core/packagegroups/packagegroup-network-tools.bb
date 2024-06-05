@@ -6,4 +6,6 @@ inherit packagegroup
 
 RDEPENDS_${PN} = "\
 	phytool \
+	tcpdump \
+	iputils \
 "
