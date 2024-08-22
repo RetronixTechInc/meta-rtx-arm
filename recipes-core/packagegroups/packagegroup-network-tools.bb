@@ -8,4 +8,5 @@ RDEPENDS_${PN} = "\
 	phytool \
 	tcpdump \
 	iputils \
+	iw	\
 "
