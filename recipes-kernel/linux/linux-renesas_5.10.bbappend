@@ -4,8 +4,8 @@ COMPATIBLE_MACHINE = "(falcon|condor|eagle|whitehawk|raptor)"
 
 FILESEXTRAPATHS:prepend := "${THISDIR}/${PN}:"
 
-#SRCREV = "${AUTOREV}"
-SRCREV = "2810414dc6dcbea2a6cb72c41146d19c0576bdee"
+SRCREV = "${AUTOREV}"
+#SRCREV = "2810414dc6dcbea2a6cb72c41146d19c0576bdee"
 
 RTX_BSP_BRANCH = "v4h-raptor/v5.10.147/rcar-5.2.0.rc19"
 RTX_BSP_URL = "git://git@github.com/RetronixTechInc/rcar-gen4-kernel.git;protocol=ssh"
