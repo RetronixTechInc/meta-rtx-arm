@@ -13,3 +13,7 @@ SRC_URI = "${RTX_BSP_URL};nocheckout=1;branch=${RTX_BSP_BRANCH} \
 	file://config_max96752.cfg \
 	file://config_builtin_lt9611.cfg \
 	"
+
+KERNEL_DTC_FLAGS += "-@"
+
+
