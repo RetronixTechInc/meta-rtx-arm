@@ -5,7 +5,7 @@ PR = "r0"
 SRC_URI = "file://K2026090-renesas_usb_fw.mem \
           "
 
-COMPATIBLE_MACHINE = "(falcon|condor|eagle|whitehawk|raptor)"
+COMPATIBLE_MACHINE = "(falcon|condor|eagle|whitehawk|raptor|v4h-sbc)"
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
