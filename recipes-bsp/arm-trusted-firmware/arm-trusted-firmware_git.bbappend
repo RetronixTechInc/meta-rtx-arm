@@ -1,1 +1,1 @@
-COMPATIBLE_MACHINE .= "|raptor|v4h-sbc"
+COMPATIBLE_MACHINE .= "|raptor|v4h-sbc|hel"

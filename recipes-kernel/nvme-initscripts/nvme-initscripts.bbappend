@@ -1,1 +1,1 @@
-COMPATIBLE_MACHINE = "(whitehawk|raptor|v4h-sbc)"
+COMPATIBLE_MACHINE = "(whitehawk|raptor|v4h-sbc|hel)"

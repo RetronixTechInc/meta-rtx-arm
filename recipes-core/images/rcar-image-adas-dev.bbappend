@@ -1,4 +1,4 @@
-COMPATIBLE_MACHINE = "(falcon|condor|eagle|whitehawk|raptor|v4h-sbc)"
+COMPATIBLE_MACHINE = "(falcon|condor|eagle|whitehawk|raptor|v4h-sbc|hel)"
 
 IMAGE_INSTALL += "\
 	packagegroup-burnin-tools \
