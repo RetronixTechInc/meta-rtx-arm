@@ -1,7 +1,14 @@
 DESCRIPTION = "Linux u-boot for the R-Car V4x based board"
 
+
 SRCREV = "${AUTOREV}"
-#SRCREV = "9a8d0e10cd5045351d8d0f5bcc7c265037035ed9"
+
+# release v0.0.0 2025/03/07
+#SRCREV = "728df72ea9ab208f8f594832d249d4df2af6133b"
+
+# release v0.0.1 2025/03/28
+#SRCREV = "d7b614847aba0d9c818353801095f13843638b59"
+
 
 OVERRIDES .= ":${MACHINE}"
 RTX_UBOOT_URL = "git://github.com/RetronixTechInc/rcar-uboot.git;protocol=https"

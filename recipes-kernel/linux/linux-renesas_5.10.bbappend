@@ -4,8 +4,15 @@ COMPATIBLE_MACHINE = "(falcon|condor|eagle|whitehawk|raptor|v4h-sbc|hel)"
 
 FILESEXTRAPATHS:prepend := "${THISDIR}/${PN}:"
 
+
 SRCREV = "${AUTOREV}"
-#SRCREV = "2810414dc6dcbea2a6cb72c41146d19c0576bdee"
+
+# release v0.0.0 2025/03/07
+#SRCREV = "154fe69ecc968e8ace9d509509ae5ed75e402df8"
+
+# release v0.0.1 2025/03/28
+#SRCREV = "a9dac8116a66f6d00ad8940074293096a3258bfa"
+
 
 OVERRIDES .= ":${MACHINE}"
 RTX_BSP_BRANCH_raptor = "v4h-raptor/v5.10.147/rcar-5.2.0.rc19"
