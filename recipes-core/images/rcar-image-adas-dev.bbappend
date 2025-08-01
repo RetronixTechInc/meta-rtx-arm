@@ -5,5 +5,6 @@ IMAGE_INSTALL += "\
 	packagegroup-network-tools \
 	spidev-test \
 	linux-firmware-renesas \
+	upd72020x-load \
 "
 
