@@ -5,7 +5,8 @@ COMPATIBLE_MACHINE = "(falcon|condor|eagle|whitehawk|raptor|v4h-sbc|hel)"
 FILESEXTRAPATHS:prepend := "${THISDIR}/${PN}:"
 
 
-SRCREV = "${AUTOREV}"
+#SRCREV = "${AUTOREV}"
+SRCREV = "0a9a88ace65eb8f898f84e552eb4c19b2cbb40e7"
 
 
 OVERRIDES .= ":${MACHINE}"
@@ -20,6 +21,7 @@ SRC_URI = "${RTX_BSP_URL};nocheckout=1;branch=${RTX_BSP_BRANCH} \
 	file://config_USB_XHCI_PCI_RENESAS.cfg \
 	file://config_ad2428.cfg \
 	file://config_rtl9010.cfg \
+	file://config_max9295a.cfg \
 	"
 
 KERNEL_DTC_FLAGS += "-@"
