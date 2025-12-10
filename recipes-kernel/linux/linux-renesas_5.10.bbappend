@@ -5,8 +5,7 @@ COMPATIBLE_MACHINE = "(falcon|condor|eagle|whitehawk|raptor|v4h-sbc|hel)"
 FILESEXTRAPATHS:prepend := "${THISDIR}/${PN}:"
 
 
-#SRCREV = "${AUTOREV}"
-SRCREV = "0a9a88ace65eb8f898f84e552eb4c19b2cbb40e7"
+SRCREV = "${AUTOREV}"
 
 
 OVERRIDES .= ":${MACHINE}"
@@ -28,6 +27,8 @@ KERNEL_DTC_FLAGS += "-@"
 
 
 ### HEL project ####################################
+# release hel v2.2.2 2025/12/10
+#SRCREV = "0a9a88ace65eb8f898f84e552eb4c19b2cbb40e7"
 # release hel v2.2.1 2025/09/12
 #SRCREV = "9431a153558bc383bc603d4957c7aa4c6fbeafa0"
 # release hel v2.1.1 2025/07/31
