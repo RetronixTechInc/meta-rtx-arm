@@ -2,10 +2,7 @@ DESCRIPTION = "Linux kernel for the R-Car V4H based boards"
 
 COMPATIBLE_MACHINE = "raptor"
 
-FILESEXTRAPATHS:prepend := " \
-	${THISDIR}/${PN}/${MACHINE}: \
-	${THISDIR}/${PN}/common: \
-"
+FILESEXTRAPATHS:prepend := "${THISDIR}/${PN}:"
 
 SRCREV = "${RTX_KERNEL_REV}"
 SRC_URI = "${RTX_KERNEL_URL};nocheckout=1;branch=${RTX_KERNEL_BRANCH} \
