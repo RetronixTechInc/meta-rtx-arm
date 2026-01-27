@@ -1,5 +1,5 @@
 COMPATIBLE_MACHINE = "raptor"
 
-IMAGE_INSTALL += " \
+IMAGE_INSTALL:append = " \
 	spidev-test \
 "
