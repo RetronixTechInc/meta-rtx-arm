@@ -1,6 +1,6 @@
 DESCRIPTION = "Linux kernel for the R-Car V4H based boards"
 
-COMPATIBLE_MACHINE = "raptor"
+COMPATIBLE_MACHINE = "raptor|sparrowhawk"
 
 FILESEXTRAPATHS:prepend := "${THISDIR}/${PN}:"
 

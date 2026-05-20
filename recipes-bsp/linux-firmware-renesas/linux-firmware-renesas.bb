@@ -4,7 +4,7 @@ PR = "r0"
 
 SRC_URI = "file://K2026090-renesas_usb_fw.mem"
 
-COMPATIBLE_MACHINE = "raptor"
+COMPATIBLE_MACHINE = "raptor|sparrowhawk"
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 

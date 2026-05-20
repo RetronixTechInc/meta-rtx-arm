@@ -1,1 +1,1 @@
-COMPATIBLE_MACHINE = "raptor"
+COMPATIBLE_MACHINE = "raptor|sparrowhawk"
