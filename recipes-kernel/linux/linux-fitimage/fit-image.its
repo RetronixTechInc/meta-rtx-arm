@@ -1,0 +1,98 @@
+/dts-v1/;
+
+/ {
+	description = "Linux kernel and FDT blob for r8a779g3-sparrow-hawk";
+
+	images {
+		kernel-1 {
+			description = "Linux kernel";
+			data = /incbin/("./Image");
+			type = "kernel";
+			arch = "arm64";
+			os = "linux";
+			compression = "none";
+			load = <0x48080000>;
+			entry = <0x48080000>;
+			hash-1 {
+				algo = "crc32";
+			};
+		};
+		fdt-1 {
+			description = "Flattened Device Tree blob";
+			data = /incbin/("./r8a779g3-sparrow-hawk.dtb");
+			type = "flat_dt";
+			arch = "arm64";
+			compression = "none";
+			load = <0x48000000>;
+			entry = <0x48000000>;
+			hash-1 {
+				algo = "crc32";
+			};
+		};
+
+		script {
+			description = "Boot script for automatic applying dt-overlay ";
+			data = /incbin/("./boot.cmd");
+			type = "script";
+			arch = "arm64";
+			os = "u-boot";
+			compression = "none";
+			hash-1 {
+				algo = "crc32";
+			};
+		};
+
+		fdt-j1-imx219 {
+			description = "Flattened Device Tree Overlay";
+			data = /incbin/("./r8a779g3-sparrow-hawk-camera-j1-imx219.dtb");
+			type = "flat_dt";
+			arch = "arm64";
+			compression = "none";
+			hash-1 {
+				algo = "crc32";
+			};
+		};
+		fdt-j2-imx219 {
+			description = "Flattened Device Tree Overlay";
+			data = /incbin/("./r8a779g3-sparrow-hawk-camera-j2-imx219.dtb");
+			type = "flat_dt";
+			arch = "arm64";
+			compression = "none";
+			hash-1 {
+				algo = "crc32";
+			};
+		};
+		fdt-rpi-display-2-7in {
+			description = "Flattened Device Tree Overlay";
+			data = /incbin/("./r8a779g3-sparrow-hawk-rpi-display-2-7in.dtb");
+			type = "flat_dt";
+			arch = "arm64";
+			compression = "none";
+			hash-1 {
+				algo = "crc32";
+			};
+		};		
+	};
+
+	configurations {
+		default = "default";
+		default {
+			description = "Boot Linux kernel with FDT blob";
+			kernel = "kernel-1";
+			fdt = "fdt-1";
+			hash-1 {
+				algo = "crc32";
+			};
+		};
+
+		j1-imx219 {
+			fdt = "fdt-j1-imx219";
+		};
+		j2-imx219 {
+			fdt = "fdt-j2-imx219";
+		};
+		rpi-display-2-7in {
+			fdt = "fdt-rpi-display-2-7in";
+		};		
+	};
+};
