@@ -1,20 +1,20 @@
-From 89ab82a29a115ed615a9cc1b8998839301a9433b Mon Sep 17 00:00:00 2001
+From 4e29b5da7d117116d41bfd3b6135beba32b23b74 Mon Sep 17 00:00:00 2001
 From: FelixHsu <felixhsu@retronix.com.tw>
-Date: Tue, 19 May 2026 14:12:07 +0800
+Date: Mon, 8 Jun 2026 13:31:52 +0800
 Subject: [PATCH] configs:renesas: Setup default env parameters
 
 Used only for board bring-up stage
 
 Signed-off-by: FelixHsu <felixhsu@retronix.com.tw>
 ---
- include/configs/rcar-gen4-common.h | 28 ++++++++++++++++++++++------
- 1 file changed, 22 insertions(+), 6 deletions(-)
+ include/configs/rcar-gen4-common.h | 18 ++++++++++++------
+ 1 file changed, 12 insertions(+), 6 deletions(-)
 
 diff --git a/include/configs/rcar-gen4-common.h b/include/configs/rcar-gen4-common.h
-index 055544213d..13b1a07935 100644
+index 055544213d..68958abacd 100644
 --- a/include/configs/rcar-gen4-common.h
 +++ b/include/configs/rcar-gen4-common.h
-@@ -47,12 +47,28 @@
+@@ -47,12 +47,18 @@
  
  /* ENV setting */
  
@@ -25,28 +25,18 @@ index 055544213d..13b1a07935 100644
 -	"tftp 0x48080000 Image; " \
 -	"tftp 0x48000000 Image-"CONFIG_DEFAULT_FDT_FILE"; " \
 -	"booti 0x48080000 - 0x48000000"
-+	"run bootcmd_mmc"
++	"run bootcmd_auto"
 +
 +#define CONFIG_EXTRA_ENV_SETTINGS			\
-+	"file_kernel=/boot/Image\0"			\
-+	"file_dtb=/boot/r8a779g3-sparrow-hawk.dtb\0"	\
-+	"loadaddr=0x48080000\0"				\
-+	"loadaddr_dtb=0x48000000\0"			\
-+	"loadaddr_env=0x48060000\0"			\
-+	"locate_storage=mmc dev 0\0"			\
-+	"load_kernel=${loadcmd} ${loadaddr} ${file_kernel};${loadcmd} ${loadaddr_dtb} ${file_dtb}\0"	\
-+	"loadcmd_tftp=setenv loadcmd tftp\0"		\
-+	"loadcmd_mmc=setenv loadcmd ext4load mmc 0:1\0"	\
-+	"ethaddr=2E:09:0A:06:F0:23\0"			\
-+	"ipaddr=192.168.0.20\0"				\
-+	"serverip=192.168.0.1\0"			\
-+	"serverfold=/export/rfs\0"			\
-+	"cma_size=900M\0"				\
-+	"pcie_option=pci=pcie_bus_perf\0"		\
 +	"bootargs_nfs=setenv bootargs rw root=/dev/nfs nfsroot=${serverip}:${serverfold},nfsvers=3 ip=dhcp cma=${cma_size},clk_ignore_unused ${pcie_option}\0"	\
-+	"bootcmd_nfs=run bootargs_nfs;run loadcmd_tftp;run load_kernel;booti ${loadaddr} - ${loadaddr_dtb}\0"	\
-+	"bootargs_mmc=setenv bootargs rw root=/dev/mmcblk0p1 rootfstype=ext4 rootwait cma=${cma_size},clk_ignore_unused ${pcie_option}\0"	\
-+	"bootcmd_mmc=run bootargs_mmc;run loadcmd_mmc;run locate_storage;run load_kernel;booti ${loadaddr} - ${loadaddr_dtb}\0"
++	"bootcmd_auto=setenv bootargs \"rw root=/dev/mmcblk0p1 rootwait\" && load mmc 0:1 ${loadaddr} /boot/fitImage && source ${loadaddr}:script\0"	\
++	"bootcmd_nfs=run bootargs_nfs;tftp 0x48080000 Image;tftp 0x48000000 "CONFIG_DEFAULT_FDT_FILE";booti 0x48080000 - 0x48000000\0"	\
++	"cma_size=560M\0"	\
++	"loadaddr=0x58000000\0"	\
++	"pcie_option=pci=pcie_bus_perf\0"	\
++	"serverfold=/export/rfs\0"	\
++	"serverip=192.168.0.1\0"	\
++	"ipaddr=192.168.0.20\0"
  
  #endif	/* __RCAR_GEN4_COMMON_H */
 -- 
